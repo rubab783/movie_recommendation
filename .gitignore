@@ -1,0 +1,5 @@
+.env
+__pycache__/
+*.pkl
+data/genome_scores.csv
+data/rating.csv
