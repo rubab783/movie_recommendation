@@ -3,9 +3,10 @@ import pickle
 import pandas as pd
 import requests
 import os
+import gdown
 from dotenv import load_dotenv
 
-# Load API key
+# Load API key from .env
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
@@ -63,9 +64,23 @@ h1 {
 </style>
 """, unsafe_allow_html=True)
 
+# Google Drive links for your pickled files
+MOVIES_URL  = "https://drive.google.com/uc?id=141H9okKrhTxQ0cXY842yMWwT_ijCCJD9"
+SIM_URL     = "https://drive.google.com/uc?id=1g-WKWkrpi9GKbf8AkoA-tTgHhzyv2uMf"
+
+# Download files if not already present
+if not os.path.exists("movies.pkl"):
+    gdown.download(MOVIES_URL, "movies.pkl", quiet=False)
+
+if not os.path.exists("similarity.pkl"):
+    gdown.download(SIM_URL, "similarity.pkl", quiet=False)
+
 # Load data
-movies = pickle.load(open("model/movies.pkl", "rb"))
-similarity = pickle.load(open("model/similarity.pkl", "rb"))
+with open("movies.pkl", "rb") as f:
+    movies = pickle.load(f)
+
+with open("similarity.pkl", "rb") as f:
+    similarity = pickle.load(f)
 
 # Cached poster fetch
 @st.cache_data(show_spinner=False)
